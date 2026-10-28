@@ -24,7 +24,7 @@ jobs:
           print('ast.h patched')
           PY
       - name: Build
-        run: x86_64-w64-mingw32-g++ -O2 -std=c++20 -static -funsigned-char -D_CHAR_UNSIGNED -fpermissive -include cstring -o ljd2.exe main.cpp ast/ast.cpp bytecode/bytecode.cpp bytecode/prototype.cpp lua/lua.cpp -luser32 -lshlwapi 2>&1
+        run: x86_64-w64-mingw32-g++ -O2 -std=c++20 -static -funsigned-char -D_CHAR_UNSIGNED -fpermissive -include cstring -o ljd2.exe main.cpp ast/ast.cpp bytecode/bytecode.cpp bytecode/prototype.cpp lua/lua.cpp -luser32 -lshlwapi -lcomdlg32 2>&1
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
