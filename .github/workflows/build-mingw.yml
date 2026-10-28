@@ -12,13 +12,14 @@ jobs:
       - name: Patch ast.h access
         run: |
           p = 'ast/ast.h'
-          s = open(p).read()
+          s = open(p, newline='').read()
+          s = s.replace(chr(13)+chr(10), chr(10))
           t, nl = chr(9), chr(10)
           priv = t+'struct Local;'+nl+t+'struct SlotScope;'+nl+t+'struct ConditionBuilder;'
           assert priv in s, 'pattern not found'
           s = s.replace(priv, t+'struct ConditionBuilder;')
           s = s.replace('public:', 'public:'+nl+t+'struct Local;'+nl+t+'struct SlotScope;', 1)
-          open(p, 'w').write(s)
+          open(p, 'w', newline='').write(s)
           print('ast.h patched')
       - name: Build
         run: x86_64-w64-mingw32-g++ -O2 -std=c++20 -static -funsigned-char -D_CHAR_UNSIGNED -fpermissive -include cstring -o ljd2.exe main.cpp ast/ast.cpp bytecode/bytecode.cpp bytecode/prototype.cpp lua/lua.cpp -luser32 -lshlwapi 2>&1
